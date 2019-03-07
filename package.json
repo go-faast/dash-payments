@@ -1,0 +1,112 @@
+{
+  "name": "xrp-payments",
+  "version": "0.0.1",
+  "description": "Utilities for xrp payments, like generating integrated addresses and sweeping funds",
+  "main": "dist/xrp-payments.umd.js",
+  "module": "dist/xrp-payments.es5.js",
+  "typings": "dist/types/xrp-payments.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/bitaccess/xrp-payments.git"
+  },
+  "keywords": [
+    "ripple",
+    "payments",
+    "xrp",
+    "bitcoin",
+    "faast",
+    "bitaccess"
+  ],
+  "author": "Dan Wolfgram <dan@bitaccess.co>",
+  "license": "MIT",
+  "homepage": "https://bitbucket.org/bitaccess/xrp-payments#readme",
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "scripts": {
+    "lint": "tslint  --project tsconfig.json -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
+    "prebuild": "rimraf dist",
+    "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file src",
+    "start": "rollup -c rollup.config.ts -w",
+    "test": "jest --coverage",
+    "test:watch": "jest --coverage --watch",
+    "test:prod": "npm run lint && npm run test -- --no-cache",
+    "report-coverage": "cat ./coverage/lcov.info | coveralls",
+    "precommit": "lint-staged",
+    "preversion": "bin/preversion.sh",
+    "postversion": "git push && git push --tags"
+  },
+  "lint-staged": {
+    "{src,test}/**/*.ts": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testEnvironment": "node",
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/test/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 95,
+        "lines": 95,
+        "statements": 95
+      }
+    },
+    "collectCoverageFrom": [
+      "src/*.{js,ts}"
+    ]
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  },
+  "devDependencies": {
+    "@types/jest": "^23.3.2",
+    "@types/node": "^10.11.0",
+    "coveralls": "^3.0.2",
+    "cross-env": "^5.2.0",
+    "jest": "^23.6.0",
+    "jest-config": "^23.6.0",
+    "lint-staged": "^8.0.0",
+    "prettier": "^1.14.3",
+    "rimraf": "^2.6.2",
+    "rollup": "^0.67.0",
+    "rollup-plugin-commonjs": "^9.1.8",
+    "rollup-plugin-json": "^3.1.0",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "rollup-plugin-typescript2": "^0.18.0",
+    "ts-jest": "^23.10.2",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.12.1",
+    "tslint-config-prettier": "^1.15.0",
+    "tslint-config-standard": "^8.0.1",
+    "typedoc": "^0.12.0",
+    "typescript": "^3.2.4"
+  },
+  "dependencies": {
+    "@types/base-x": "^3.0.0",
+    "@types/jssha": "^2.0.0",
+    "@types/sjcl": "^1.0.28",
+    "axios": "^0.18.0",
+    "base-x": "^3.0.5",
+    "big-integer": "^1.6.41",
+    "bignumber.js": "^8.0.2",
+    "jssha": "^2.3.1",
+    "ripple-lib": "^1.1.2",
+    "sjcl": "^1.0.8"
+  }
+}
